@@ -1,4 +1,4 @@
-
+let matchNames = [];
 //add dynamic mark up for the gallary
 
 const createGallery = (person) => {
@@ -38,9 +38,46 @@ const createModal = (person) => {
     `).insertAfter('#gallery');
 }
 
+//insert toggle forward / back
+
+const createToggleBack_Forward = () => {
+    $(`
+        <div class="modal-btn-container">
+            <button type="button" id="modal-prev" class="modal-prev btn">Prev</button>
+            <button type="button" id="modal-next" class="modal-next btn">Next</button>
+        </div>
+    `).insertAfter('.modal-container');
+}
+
+
+//implment toggle forward and back
+
+const 
+
+
+//insert search bar
+
+const searchBar = () => {
+    $(`
+        <form action="#" method="get">
+            <input type="search" id="search-input" class="search-input" placeholder="Search...">
+            <input type="submit" value="&#x1F50D;" id="serach-submit" class="search-submit">
+        </form>
+    `).insertAfter('.search-container');
+}
+
+//searchFunctionCheck
+const searchFunc = (name) => {
+    if(name.text().includes($('#search-input').val().toLowerCase())){
+        return true
+    } else {
+        return false;
+    }
+}
+
 //fetch data back with a Promise from api end point
 const fetchFunc = (funcGallery) => { 
-    fetch('https://randomuser.me/api/?results=12')
+    fetch('https://randomuser.me/api/?results=12&nat=US') //return only US based employees
         .then(res =>{
             if(res.ok){
                 return res.json();
@@ -52,14 +89,41 @@ const fetchFunc = (funcGallery) => {
         .then(data => {
             data.results.map(person => {    
                 funcGallery(person); 
-            });
-            
+            }); //gallery displayed
+
+            searchBar();//insert the search bar
+
             $(".card").each((index, element) => {
                 $(element).on('click', (e) => {
                     createModal(data.results[index]);
+                    createToggleBack_Forward();
                     $(".modal-close-btn").click((e) => {
                         $('.modal-container').hide();
                     })
+                })
+            }) //modal display
+
+            //search based on submit button
+            $("#serach-submit").on('click' ,(e) => {
+                e.preventDefault();
+                $(".card #name").each((index,element) => {
+                    if(searchFunc($(element))){
+                        $($(".card")[index]).show();//passing the list of names to the search function
+                    } else {
+                        $($(".card")[index]).hide();
+                    }
+                })
+            })
+
+            //search based real time keyboard input
+            $("#search-input").on('keyup' ,(e) => {
+                e.preventDefault();
+                $(".card #name").each((index,element) => {
+                    if(searchFunc($(element))){
+                        $($(".card")[index]).show();//passing the list of names to the search function
+                    } else {
+                        $($(".card")[index]).hide();
+                    }
                 })
             })
         })
@@ -70,3 +134,4 @@ const fetchFunc = (funcGallery) => {
 }
 
 fetchFunc(createGallery);
+
