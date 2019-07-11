@@ -41,18 +41,45 @@ const createModal = (person) => {
 //insert toggle forward / back
 
 const createToggleBack_Forward = () => {
-    $(`
+    
+    $('.modal-container').append(`
         <div class="modal-btn-container">
             <button type="button" id="modal-prev" class="modal-prev btn">Prev</button>
             <button type="button" id="modal-next" class="modal-next btn">Next</button>
         </div>
-    `).insertAfter('.modal-container');
+    `);
 }
 
 
 //implment toggle forward and back
 
-const 
+const toggleForward = (data,index) => {
+    $("#modal-next").on('click', () => {
+        console.log(data[index]);
+        $('.modal-container').remove();
+        createModal(data[index]);
+        createToggleBack_Forward();
+        let indexNew = index + 1; 
+        toggleForward(data, indexNew);
+        $(".modal-close-btn").click((e) => {
+            $('.modal-container').remove();
+        })
+    })
+}
+
+const toggleBack = (data, index) => {
+    $("#modal-prev").on('click', () => {
+        console.log(data[index]);
+        $('.modal-container').remove();
+        createModal(data[index]);
+        createToggleBack_Forward();
+        let indexNew = index - 1; 
+        toggleBack(data, indexNew);
+        $(".modal-close-btn").click((e) => {
+            $('.modal-container').remove();
+        })
+    })
+}
 
 
 //insert search bar
@@ -92,13 +119,20 @@ const fetchFunc = (funcGallery) => {
             }); //gallery displayed
 
             searchBar();//insert the search bar
-
+            
             $(".card").each((index, element) => {
+                
                 $(element).on('click', (e) => {
                     createModal(data.results[index]);
                     createToggleBack_Forward();
+                    
+                    
+                    toggleForward(data.results, index+1);
+                    toggleBack(data.results, index-1);
+                    
+                
                     $(".modal-close-btn").click((e) => {
-                        $('.modal-container').hide();
+                        $('.modal-container').remove();
                     })
                 })
             }) //modal display
