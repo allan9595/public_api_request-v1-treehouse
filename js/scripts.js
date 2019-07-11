@@ -55,18 +55,18 @@ const createToggleBack_Forward = () => {
 
 const toggleForward = (data,index) => {
     $("#modal-next").on('click', () => {
-        $('.modal-container').remove();
+        $('.modal-container').remove(); //remove the previous conatiner
         createModal(data[index]);
         createToggleBack_Forward();
         if(index === $('.card').length-1){
-            index = -1;
+            index = -1; //if reach the end, reset it to -1
         } 
-        let indexNew = index + 1;
-        toggleForward(data, indexNew);
+        let indexNew = index + 1; //always + 1 for next modal
+        toggleForward(data, indexNew); //recursive call the function
         $(".modal-close-btn").click((e) => {
             $('.modal-container').remove();
         })
-        toggleBack(data,index-1);
+        toggleBack(data,index-1); // for move back 
     })
     
 }
@@ -77,14 +77,14 @@ const toggleBack = (data, index) => {
         createModal(data[index]);
         createToggleBack_Forward();
         if(index === 0){
-            index = $('.card').length;
+            index = $('.card').length; //if reach the front, reset it to 0
         } 
         let indexNew = index - 1; 
         toggleBack(data, indexNew);
         $(".modal-close-btn").click((e) => {
-            $('.modal-container').remove();
+            $('.modal-container').remove();//recursive call the function
         })
-        toggleForward(data,index+1);
+        toggleForward(data,index+1);// for move forward
     })
 }
 
@@ -103,7 +103,7 @@ const searchBar = () => {
 //searchFunctionCheck
 const searchFunc = (name) => {
     if(name.text().includes($('#search-input').val().toLowerCase())){
-        return true
+        return true //if one of the names includes from the search box, reture true
     } else {
         return false;
     }
@@ -114,7 +114,7 @@ const fetchFunc = (funcGallery) => {
     fetch('https://randomuser.me/api/?results=12&nat=US') //return only US based employees
         .then(res =>{
             if(res.ok){
-                return res.json();
+                return res.json(); //convert the string to json
             } else {
                 throw new Error('oops, something went wrong');
             }
@@ -122,7 +122,7 @@ const fetchFunc = (funcGallery) => {
         )
         .then(data => {
             data.results.map(person => {    
-                funcGallery(person); 
+                funcGallery(person);  //create the gallary
             }); //gallery displayed
 
             searchBar();//insert the search bar
@@ -130,18 +130,18 @@ const fetchFunc = (funcGallery) => {
             $(".card").each((index, element) => {
                 
                 $(element).on('click', (e) => {
-                    createModal(data.results[index]);
-                    createToggleBack_Forward();
+                    createModal(data.results[index]); //when the card clicked, create the modal
+                    createToggleBack_Forward(); //adding the move forward and back buttons
                     
                     if(index === $('.card').length-1){
-                        index = -1;
+                        index = -1; //reset if reach the end
                     } 
-                    toggleForward(data.results, index+1);
-
+                    toggleForward(data.results, index+1); //call move forward function
+ 
                     if(index === 0){
-                        index = $('.card').length;
+                        index = $('.card').length; //reset if reach the front
                     } 
-                    toggleBack(data.results, index-1);
+                    toggleBack(data.results, index-1); //call move back function
                     
                 
                     $(".modal-close-btn").click((e) => {
@@ -155,7 +155,7 @@ const fetchFunc = (funcGallery) => {
                 e.preventDefault();
                 $(".card #name").each((index,element) => {
                     if(searchFunc($(element))){
-                        $($(".card")[index]).show();//passing the list of names to the search function
+                        $($(".card")[index]).show();//passing the list of names to the search function, show if true
                     } else {
                         $($(".card")[index]).hide();
                     }
