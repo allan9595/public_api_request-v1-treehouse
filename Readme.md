@@ -1,4 +1,4 @@
-#AWESOME STARTUP EMPLOYEE DIRECTORY
+# AWESOME STARTUP EMPLOYEE DIRECTORY
 
 **public_api_request** 
 This app calls an [API]((https://randomuser.me/)) and pulls random people's data back. You can search our employees based on their name from keyboard. When you click on the card, it will open a modal. You can toggle forward and back.
