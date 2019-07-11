@@ -55,29 +55,36 @@ const createToggleBack_Forward = () => {
 
 const toggleForward = (data,index) => {
     $("#modal-next").on('click', () => {
-        console.log(data[index]);
         $('.modal-container').remove();
         createModal(data[index]);
         createToggleBack_Forward();
-        let indexNew = index + 1; 
+        if(index === $('.card').length-1){
+            index = -1;
+        } 
+        let indexNew = index + 1;
         toggleForward(data, indexNew);
         $(".modal-close-btn").click((e) => {
             $('.modal-container').remove();
         })
+        toggleBack(data,index-1);
     })
+    
 }
 
 const toggleBack = (data, index) => {
     $("#modal-prev").on('click', () => {
-        console.log(data[index]);
         $('.modal-container').remove();
         createModal(data[index]);
         createToggleBack_Forward();
+        if(index === 0){
+            index = $('.card').length;
+        } 
         let indexNew = index - 1; 
         toggleBack(data, indexNew);
         $(".modal-close-btn").click((e) => {
             $('.modal-container').remove();
         })
+        toggleForward(data,index+1);
     })
 }
 
@@ -126,8 +133,14 @@ const fetchFunc = (funcGallery) => {
                     createModal(data.results[index]);
                     createToggleBack_Forward();
                     
-                    
+                    if(index === $('.card').length-1){
+                        index = -1;
+                    } 
                     toggleForward(data.results, index+1);
+
+                    if(index === 0){
+                        index = $('.card').length;
+                    } 
                     toggleBack(data.results, index-1);
                     
                 
