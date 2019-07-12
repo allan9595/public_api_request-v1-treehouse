@@ -21,6 +21,14 @@ const createGallery = (person) => {
 
 const createModal = (person) => {
     const date = new Date(person.dob.date);
+    let string = person.location.street.split(" "); //split the stree into an array
+    
+    for(let i=0;i < string.length;i++){
+        string[i] = string[i].charAt(0).toUpperCase() + string[i].substring(1); //go through each array, convert arrayfirst to Upper then concat with the rest
+    }
+    //code inspiring from https://stackoverflow.com/questions/32589197/capitalize-first-letter-of-each-word-in-a-string-javascript
+    let newStreet= string.join(" ");  //put them together again
+ 
         $(`
             <div class="modal-container">
                 <div class="modal">
@@ -32,7 +40,7 @@ const createModal = (person) => {
                         <p class="modal-text cap">${person.location.city}</p>
                         <hr>
                         <p class="modal-text">${person.phone}</p>
-                        <p class="modal-text">${person.location.street}</p>
+                        <p class="modal-text">${newStreet}</p>
                         <p class="modal-text">Birthday: ${date.getUTCMonth()+1}-${date.getUTCDate()}-${date.getUTCFullYear()}</p>
                     </div>
             </div>
