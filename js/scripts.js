@@ -20,6 +20,7 @@ const createGallery = (person) => {
 //create Modal
 
 const createModal = (person) => {
+    const date = new Date(person.dob.date);
         $(`
             <div class="modal-container">
                 <div class="modal">
@@ -32,7 +33,7 @@ const createModal = (person) => {
                         <hr>
                         <p class="modal-text">${person.phone}</p>
                         <p class="modal-text">${person.location.street}</p>
-                        <p class="modal-text">${person.dob.date}</p>
+                        <p class="modal-text">Birthday: ${date.getUTCMonth()+1}-${date.getUTCDate()}-${date.getUTCFullYear()}</p>
                     </div>
             </div>
     `).insertAfter('#gallery');
