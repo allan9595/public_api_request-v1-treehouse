@@ -20,14 +20,16 @@ const createGallery = (person) => {
 //create Modal
 
 const createModal = (person) => {
-    const date = new Date(person.dob.date);
+    
+    let date = new Date(person.dob.date);
+    
     let string = person.location.street.split(" "); //split the stree into an array
     
     for(let i=0;i < string.length;i++){
         string[i] = string[i].charAt(0).toUpperCase() + string[i].substring(1); //go through each array, convert arrayfirst to Upper then concat with the rest
     }
     //code inspiring from https://stackoverflow.com/questions/32589197/capitalize-first-letter-of-each-word-in-a-string-javascript
-    let newStreet= string.join(" ");  //put them together again
+    let newStreet= string.join(" ");  //put them together again*/
  
         $(`
             <div class="modal-container">
@@ -68,14 +70,23 @@ const toggleForward = (data,index) => {
         createModal(data[index]);
         createToggleBack_Forward();
         if(index === $('.card').length-1){
-            index = -1; //if reach the end, reset it to -1
-        } 
-        let indexNew = index + 1; //always + 1 for next modal
-        toggleForward(data, indexNew); //recursive call the function
+            toggleForward(data, 0); //if reach the end, reset the first item
+        } else {
+            toggleForward(data, index+1); //recursive call the function
+        }
+        //let indexNew = index + 1; //always + 1 for next modal
+        
         $(".modal-close-btn").click((e) => {
             $('.modal-container').remove();
         })
-        toggleBack(data,index-1); // for move back 
+        
+        
+        if((index-1) === -1){
+            toggleBack(data,$('.card').length-1); // if reach the front, reset to the last item
+        } else {
+            toggleBack(data,index-1); // for move back 
+        }
+        
     })
     
 }
@@ -85,15 +96,24 @@ const toggleBack = (data, index) => {
         $('.modal-container').remove();
         createModal(data[index]);
         createToggleBack_Forward();
-        if(index === 0){
-            index = $('.card').length; //if reach the front, reset it to 0
-        } 
-        let indexNew = index - 1; 
-        toggleBack(data, indexNew);
+
+        if((index-1) === -1){
+            toggleBack(data, ($('.card').length)-1); //if reach the front, reset it to length
+        } else {
+            toggleBack(data, index-1);
+        }
+
+        
         $(".modal-close-btn").click((e) => {
             $('.modal-container').remove();//recursive call the function
         })
-        toggleForward(data,index+1);// for move forward
+        
+        if((index+1) === $('.card').length){
+            toggleForward(data,0); //if reach the end, reset and start from front
+        } else {
+            toggleForward(data,index+1);// for move forward
+        }
+        
     })
 }
 
@@ -139,18 +159,21 @@ const fetchFunc = (funcGallery) => {
             $(".card").each((index, element) => {
                 
                 $(element).on('click', (e) => {
+                    
+                    let indexToggle1 = index;
+                    let indexToggle2 = index;
                     createModal(data.results[index]); //when the card clicked, create the modal
                     createToggleBack_Forward(); //adding the move forward and back buttons
                     
                     if(index === $('.card').length-1){
-                        index = -1; //reset if reach the end
+                        indexToggle1 = -1; //reset if reach the end
                     } 
-                    toggleForward(data.results, index+1); //call move forward function
+                    toggleForward(data.results, indexToggle1+1); //call move forward function
  
                     if(index === 0){
-                        index = $('.card').length; //reset if reach the front
+                        indexToggle2 = $('.card').length; //reset if reach the front
                     } 
-                    toggleBack(data.results, index-1); //call move back function
+                    toggleBack(data.results, indexToggle2-1); //call move back function
                     
                 
                     $(".modal-close-btn").click((e) => {
