@@ -22,9 +22,9 @@ const createGallery = (person) => {
 const createModal = (person) => {
     
     let date = new Date(person.dob.date);
-    
-    let string = person.location.street.split(" "); //split the stree into an array
-    
+    console.log(person);
+    let string = person.location.street.name.split(" "); //split the stree into an array
+    let streetNumber = person.location.street.number;
     for(let i=0;i < string.length;i++){
         string[i] = string[i].charAt(0).toUpperCase() + string[i].substring(1); //go through each array, convert arrayfirst to Upper then concat with the rest
     }
@@ -42,7 +42,7 @@ const createModal = (person) => {
                         <p class="modal-text cap">${person.location.city}</p>
                         <hr>
                         <p class="modal-text">${person.phone}</p>
-                        <p class="modal-text">${newStreet}</p>
+                        <p class="modal-text">${newStreet} ${streetNumber}</p>
                         <p class="modal-text">Birthday: ${date.getUTCMonth()+1}-${date.getUTCDate()}-${date.getUTCFullYear()}</p>
                     </div>
             </div>
