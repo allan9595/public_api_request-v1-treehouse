@@ -22,7 +22,7 @@ const createGallery = (person) => {
 const createModal = (person) => {
     
     let date = new Date(person.dob.date);
-    console.log(person);
+    
     let string = person.location.street.name.split(" "); //split the stree into an array
     let streetNumber = person.location.street.number;
     for(let i=0;i < string.length;i++){
