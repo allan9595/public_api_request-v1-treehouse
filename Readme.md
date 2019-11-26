@@ -12,7 +12,7 @@ Changed modal and modal container's background. Card hover background updated. B
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
-live: (https://allan9595.github.io/public_api_request-v1-treehouse/)[https://allan9595.github.io/public_api_request-v1-treehouse/]
+live: [https://allan9595.github.io/public_api_request-v1-treehouse/](https://allan9595.github.io/public_api_request-v1-treehouse)
 
 ## License
 
